@@ -1,7 +1,14 @@
 ﻿@{
+    //bloco c# pode ser colocado todo codigo c# necessario aqui
     ViewData["Title"] = "About";
+    string Linkedin = "https://www.linkedin.com/in/vin%C3%ADcius-souza-1996471a1?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B232SUXPuQYGl4W%2BNp4TuGQ%3D%3D";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Developer info</p>
+<p>Name: @ViewData["Author"]</p>
+<p>Email: @ViewData["Email"]</p>
+<address>
+    <strong>More information: </strong><a href="@Linkedin">Linkedin</a>
+</address>
