@@ -11,6 +11,7 @@ namespace SalesWebMvc.Models
         public DateTime BirthDate { get; set; }
         public double BaseSalary { get; set; }
         public Departament Departament { get; set; }
+        public int DepartamentId { get; set; }//o framework identifica q é o Id do departamento
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
         public Saller()
