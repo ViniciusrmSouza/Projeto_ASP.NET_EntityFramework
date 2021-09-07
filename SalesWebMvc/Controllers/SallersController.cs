@@ -5,15 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using SalesWebMvc.Services;
 using SalesWebMvc.Models;
+using SalesWebMvc.Models.ViewModels;
 namespace SalesWebMvc.Controllers
 {
     public class SallersController : Controller
     {
         private readonly SallerService _sallerService;
+        private readonly DepartamentService _departamentService;
 
-        public SallersController(SallerService sallerService)
+        public SallersController(SallerService sallerService, DepartamentService departamentService)
         {
             _sallerService = sallerService;
+            _departamentService = departamentService;
         }
 
         public IActionResult Index()//Controlador
@@ -24,7 +27,9 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var departaments = _departamentService.FindAll();
+            var viewModel = new SallerFormViewModel { Departaments = departaments};
+            return View(viewModel);
         }
 
         [HttpPost]
