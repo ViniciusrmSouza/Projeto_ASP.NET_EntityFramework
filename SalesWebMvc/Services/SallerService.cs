@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SalesWebMvc.Data;
+using SalesWebMvc.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
     public class SallerService
     {
-        private readonly SalesWebMvcContext _context ;//"readonly" medida de seguraça pra evitar a modificação
+        private readonly SalesWebMvcContext _context;//"readonly" medida de seguraça pra evitar a modificação
 
         //injeção de dependencia para a subclasse do context
         public SallerService(SalesWebMvcContext context)
@@ -38,6 +39,24 @@ namespace SalesWebMvc.Services
             var obj = _context.Saller.Find(id);
             _context.Saller.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Saller obj)
+        {
+            if (!_context.Saller.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
+
         }
     }
 }
