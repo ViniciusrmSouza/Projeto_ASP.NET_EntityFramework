@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SalesWebMvc.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
@@ -30,7 +31,7 @@ namespace SalesWebMvc.Services
 
         public Saller FindById(int id)
         {
-            return _context.Saller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Saller.Include(obj => obj.Departament).FirstOrDefault(obj => obj.Id == id);//por padrão só pega os sellers do banco mas com o Incluse ja obtem tbm os objetos associados
         }
         public void Remove(int id)
         {
