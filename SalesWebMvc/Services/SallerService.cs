@@ -19,38 +19,39 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Saller> FindAll()
+        public async Task<List<Saller>> FindAllAsync()
         {
-            return _context.Saller.ToList();
+            return await _context.Saller.ToListAsync();
         }
 
-        public void Insert(Saller obj)
+        public async Task InsertAsync(Saller obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Saller FindById(int id)
+        public async Task<Saller> FindByIdAsync(int id)
         {
-            return _context.Saller.Include(obj => obj.Departament).FirstOrDefault(obj => obj.Id == id);//por padrão só pega os sellers do banco mas com o Incluse ja obtem tbm os objetos associados
+            return await _context.Saller.Include(obj => obj.Departament).FirstOrDefaultAsync(obj => obj.Id == id);//por padrão só pega os sellers do banco mas com o Incluse ja obtem tbm os objetos associados
         }
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Saller.Find(id);
+            var obj = await _context.Saller.FindAsync(id);
             _context.Saller.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Saller obj)
+        public async Task UpdateAsync(Saller obj)
         {
-            if (!_context.Saller.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Saller.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {
                 throw new NotFoundException("Id not found");
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {

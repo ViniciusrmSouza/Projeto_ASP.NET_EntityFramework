@@ -2,6 +2,8 @@
 using SalesWebMvc.Data;
 using System.Collections.Generic;
 using SalesWebMvc.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
@@ -15,9 +17,9 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Departament> FindAll()
+        public async Task<List<Departament>> FindAllAsync()
         {
-            return _context.Departament.OrderBy(x => x.Name).ToList();
+            return await _context.Departament.OrderBy(x => x.Name).ToListAsync();//fazendo chamadas assincronas(executar a aplicação independente do acesso ao banco nesse caso) para acesso a banco de dados 
         }
     }
 }
